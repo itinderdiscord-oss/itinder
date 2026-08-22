@@ -38,7 +38,6 @@
 
   a{color:inherit;}
 
-  /* floating ambient hearts */
   .floaters{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden;}
   .floaters span{
     position:absolute;
@@ -56,7 +55,7 @@
 
   header{
     position:relative;z-index:2;
-    display:flex;align-items:center;justify-content:space-between;
+    display:flex;align-items:center;justify-content:center;
     gap:12px;
     padding:22px 5vw;
   }
@@ -140,7 +139,6 @@
     letter-spacing:0.2px;
   }
 
-  /* signature: heartbeat -> heart monitor */
   .monitor{
     width:100%;max-width:640px;margin:6vh auto 2vh;
     position:relative;
@@ -190,7 +188,6 @@
     text-align:center;color:rgba(255,243,247,0.55);font-size:0.92rem;margin-top:8px;
   }
 
-  /* steps */
   section.steps{
     max-width:1040px;margin:10vh auto 8vh;padding:0 6vw;
   }
@@ -227,7 +224,6 @@
     display:none;
   }
 
-  /* bottom cta band */
   .band{
     max-width:1040px;margin:0 auto 10vh;padding:0 6vw;
   }
@@ -258,7 +254,6 @@
     *{animation-duration:0.001ms !important; animation-iteration-count:1 !important;}
   }
 
-  /* mobile refinements */
   @media (max-width:480px){
     .eyebrow{font-size:12px;padding:7px 14px;margin-bottom:20px;text-align:center;}
     .sub{font-size:0.98rem;margin-bottom:32px;}
@@ -295,10 +290,6 @@
     </svg>
     iTinder
   </div>
-  <a class="cta header-cta" href="https://discord.com/invite/HkR2pdsPmS" target="_blank" rel="noopener">
-    <svg width="16" height="16" viewBox="0 0 127.14 96.36" fill="currentColor" style="flex-shrink:0;"><path d="M107.7,8.07A105.15,105.15,0,0,0,81.47,0a72.06,72.06,0,0,0-3.36,6.83A97.68,97.68,0,0,0,49,6.83,72.37,72.37,0,0,0,45.64,0,105.89,105.89,0,0,0,19.39,8.09C2.79,32.65-1.71,56.6.54,80.21h0A105.73,105.73,0,0,0,32.71,96.36,77.7,77.7,0,0,0,39.6,85a68.42,68.42,0,0,1-10.85-5.18c.91-.66,1.8-1.34,2.66-2a75.57,75.57,0,0,0,64.32,0c.87.71,1.76,1.39,2.66,2A68.68,68.68,0,0,1,87.53,85a77,77,0,0,0,6.89,11.31A105.25,105.25,0,0,0,126.6,80.22h0C129.24,52.84,122.09,29.11,107.7,8.07ZM42.45,65.69C36.18,65.69,31,60,31,53s5-12.74,11.43-12.74S54,46,53.89,53,48.84,65.69,42.45,65.69Zm42.24,0C78.41,65.69,73.25,60,73.25,53s5-12.74,11.44-12.74S96.23,46,96.12,53,91.08,65.69,84.69,65.69Z"/></svg>
-    <span>Entrar no servidor</span>
-  </a>
 </header>
 
 <main>
@@ -306,7 +297,7 @@
     <div class="eyebrow"><span class="dot"></span> Bot de match ativo agora no Discord</div>
     <h1>Entrou. Esperou. <span class="accent">Matchou.</span></h1>
     <p class="sub">O <strong>iTinder</strong> é o bot que transforma seu servidor numa fila de match. Escolha seu gênero e seu interesse, entre na fila e deixe o algoritmo encontrar alguém compatível com você.</p>
-    <a class="cta" href="https://discord.com/invite/HkR2pdsPmS" target="_blank" rel="noopener">
+    <a class="cta" href="https://discord.com/invite/HkR2pdsPmS" target="_blank" rel="noopener" data-track="hero">
       <svg viewBox="0 0 127.14 96.36" fill="currentColor"><path d="M107.7,8.07A105.15,105.15,0,0,0,81.47,0a72.06,72.06,0,0,0-3.36,6.83A97.68,97.68,0,0,0,49,6.83,72.37,72.37,0,0,0,45.64,0,105.89,105.89,0,0,0,19.39,8.09C2.79,32.65-1.71,56.6.54,80.21h0A105.73,105.73,0,0,0,32.71,96.36,77.7,77.7,0,0,0,39.6,85a68.42,68.42,0,0,1-10.85-5.18c.91-.66,1.8-1.34,2.66-2a75.57,75.57,0,0,0,64.32,0c.87.71,1.76,1.39,2.66,2A68.68,68.68,0,0,1,87.53,85a77,77,0,0,0,6.89,11.31A105.25,105.25,0,0,0,126.6,80.22h0C129.24,52.84,122.09,29.11,107.7,8.07ZM42.45,65.69C36.18,65.69,31,60,31,53s5-12.74,11.43-12.74S54,46,53.89,53,48.84,65.69,42.45,65.69Zm42.24,0C78.41,65.69,73.25,60,73.25,53s5-12.74,11.44-12.74S96.23,46,96.12,53,91.08,65.69,84.69,65.69Z"/></svg>
       Entrar no Discord
     </a>
@@ -346,7 +337,7 @@
     <div class="band-inner">
       <h2>Talvez seu próximo match esteja a uma fila de distância.</h2>
       <p>Entra no servidor, entra na fila, e deixa o iTinder fazer o resto.</p>
-      <a class="cta" href="https://discord.com/invite/HkR2pdsPmS" target="_blank" rel="noopener">
+      <a class="cta" href="https://discord.com/invite/HkR2pdsPmS" target="_blank" rel="noopener" data-track="band">
         <svg viewBox="0 0 127.14 96.36" fill="currentColor"><path d="M107.7,8.07A105.15,105.15,0,0,0,81.47,0a72.06,72.06,0,0,0-3.36,6.83A97.68,97.68,0,0,0,49,6.83,72.37,72.37,0,0,0,45.64,0,105.89,105.89,0,0,0,19.39,8.09C2.79,32.65-1.71,56.6.54,80.21h0A105.73,105.73,0,0,0,32.71,96.36,77.7,77.7,0,0,0,39.6,85a68.42,68.42,0,0,1-10.85-5.18c.91-.66,1.8-1.34,2.66-2a75.57,75.57,0,0,0,64.32,0c.87.71,1.76,1.39,2.66,2A68.68,68.68,0,0,1,87.53,85a77,77,0,0,0,6.89,11.31A105.25,105.25,0,0,0,126.6,80.22h0C129.24,52.84,122.09,29.11,107.7,8.07ZM42.45,65.69C36.18,65.69,31,60,31,53s5-12.74,11.43-12.74S54,46,53.89,53,48.84,65.69,42.45,65.69Zm42.24,0C78.41,65.69,73.25,60,73.25,53s5-12.74,11.44-12.74S96.23,46,96.12,53,91.08,65.69,84.69,65.69Z"/></svg>
         Entrar no Discord
       </a>
@@ -357,6 +348,28 @@
 <footer>
   iTinder é um bot independente. Não afiliado à Tinder Inc. ou ao Discord Inc.
 </footer>
+
+<script>
+  // Troque pela URL do seu serviço no Render depois do deploy
+  const CLICK_API_URL = "https://SUA-URL-DO-RENDER.onrender.com/api/click";
+
+  document.querySelectorAll("a[data-track]").forEach((link) => {
+    link.addEventListener("click", () => {
+      const source = link.getAttribute("data-track") || "unknown";
+      try {
+        fetch(CLICK_API_URL, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ source }),
+          keepalive: true // garante que a requisição saia mesmo com a navegação em andamento
+        });
+      } catch (e) {
+        // silencioso: não deixamos o tracking quebrar a experiência do usuário
+        console.warn("Falha ao registrar clique:", e);
+      }
+    });
+  });
+</script>
 
 </body>
 </html>
