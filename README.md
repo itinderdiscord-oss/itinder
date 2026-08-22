@@ -29,13 +29,16 @@ A API sobe em `http://localhost:5000`.
 
 ## ⚠️ Sobre persistência dos dados
 
-Este projeto usa **SQLite em arquivo local** (`clicks.db`). Isso funciona bem enquanto o serviço está rodando, mas **no plano free do Render o disco não é persistente**: se o serviço reiniciar ou fizer redeploy, o arquivo `clicks.db` é perdido e a contagem zera.
+Este projeto usa **Postgres gerenciado pelo Render**, configurado via variável de ambiente `DATABASE_URL`. Isso resolve o problema do SQLite: mesmo que o Web Service reinicie ou "durma" no plano free, o banco de dados continua rodando separado e os dados não se perdem.
 
-Se você quer que a contagem nunca se perca, duas opções:
-- Adicionar um **Render Disk** (persistent disk, plano pago) e apontar `DB_PATH` pra ele.
-- Trocar o SQLite por um banco gerenciado, como o **Render Postgres** (tem plano free também, mas com expiração após 90 dias de inatividade — verifique as condições atuais no site do Render).
+Como configurar:
 
-Para o começo (validar se as pessoas estão clicando), o SQLite já resolve. Se crescer, migrar pro Postgres é simples.
+1. No Render, crie um serviço **New + → PostgreSQL** (pode ser plano Free).
+2. Copie a **Internal Database URL** gerada.
+3. No seu Web Service (a API), vá em **Environment** e crie a variável `DATABASE_URL` com esse valor.
+4. Redeploy o serviço (o Render geralmente já reinicia sozinho ao salvar a env var).
+
+**Atenção:** no plano Free do Render Postgres, o banco **expira depois de 90 dias** (o Render avisa por e-mail antes disso). Para um contador de cliques isso costuma bastar, mas se quiser manter os dados por mais tempo, migre pra um plano pago ou exporte os dados periodicamente.
 
 ## No frontend
 

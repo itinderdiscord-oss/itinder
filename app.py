@@ -1,7 +1,8 @@
 import os
-import sqlite3
 from datetime import datetime, timezone
 
+import psycopg2
+import psycopg2.extras
 from flask import Flask, jsonify, request
 from flask_cors import CORS
 
@@ -11,27 +12,37 @@ app = Flask(__name__)
 # em vez de "*". Ex: CORS(app, origins=["https://seusite.com"])
 CORS(app)
 
-DB_PATH = os.environ.get("DB_PATH", "clicks.db")
+DATABASE_URL = os.environ.get("DATABASE_URL")
+
+if not DATABASE_URL:
+    raise RuntimeError(
+        "DATABASE_URL não encontrada. Configure a variável de ambiente "
+        "no seu Web Service do Render apontando para o Postgres."
+    )
+
+# Render às vezes fornece a URL como "postgres://", mas psycopg2 exige "postgresql://"
+if DATABASE_URL.startswith("postgres://"):
+    DATABASE_URL = DATABASE_URL.replace("postgres://", "postgresql://", 1)
 
 
 def get_db():
-    conn = sqlite3.connect(DB_PATH)
-    conn.row_factory = sqlite3.Row
-    return conn
+    return psycopg2.connect(DATABASE_URL, cursor_factory=psycopg2.extras.RealDictCursor)
 
 
 def init_db():
     conn = get_db()
-    conn.execute(
+    cur = conn.cursor()
+    cur.execute(
         """
         CREATE TABLE IF NOT EXISTS clicks (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            id SERIAL PRIMARY KEY,
             source TEXT,
-            created_at TEXT NOT NULL
+            created_at TIMESTAMPTZ NOT NULL
         )
         """
     )
     conn.commit()
+    cur.close()
     conn.close()
 
 
@@ -44,12 +55,17 @@ def register_click():
     source = data.get("source", "unknown")[:100]  # limita tamanho, evita abuso
 
     conn = get_db()
-    conn.execute(
-        "INSERT INTO clicks (source, created_at) VALUES (?, ?)",
-        (source, datetime.now(timezone.utc).isoformat()),
+    cur = conn.cursor()
+    cur.execute(
+        "INSERT INTO clicks (source, created_at) VALUES (%s, %s)",
+        (source, datetime.now(timezone.utc)),
     )
     conn.commit()
-    total = conn.execute("SELECT COUNT(*) AS c FROM clicks").fetchone()["c"]
+
+    cur.execute("SELECT COUNT(*) AS c FROM clicks")
+    total = cur.fetchone()["c"]
+
+    cur.close()
     conn.close()
 
     return jsonify({"ok": True, "total": total}), 201
@@ -58,16 +74,22 @@ def register_click():
 @app.route("/api/stats", methods=["GET"])
 def stats():
     conn = get_db()
-    total = conn.execute("SELECT COUNT(*) AS c FROM clicks").fetchone()["c"]
+    cur = conn.cursor()
 
-    by_source = conn.execute(
+    cur.execute("SELECT COUNT(*) AS c FROM clicks")
+    total = cur.fetchone()["c"]
+
+    cur.execute(
         "SELECT source, COUNT(*) AS c FROM clicks GROUP BY source ORDER BY c DESC"
-    ).fetchall()
+    )
+    by_source = cur.fetchall()
 
-    last_24h = conn.execute(
-        "SELECT COUNT(*) AS c FROM clicks WHERE created_at >= datetime('now', '-1 day')"
-    ).fetchone()["c"]
+    cur.execute(
+        "SELECT COUNT(*) AS c FROM clicks WHERE created_at >= now() - interval '1 day'"
+    )
+    last_24h = cur.fetchone()["c"]
 
+    cur.close()
     conn.close()
 
     return jsonify(
